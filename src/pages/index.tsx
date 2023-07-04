@@ -1,3 +1,4 @@
+import { count } from 'console';
 import { useState } from 'react';
 import styles from './index.module.css';
 
@@ -19,6 +20,7 @@ const Home = () => {
   ]);
   const bombcount = 10;
   const newBoard: number[][] = JSON.parse(JSON.stringify(userInputs));
+  const newBomb: number[][] = JSON.parse(JSON.stringify(userInputs));
 
   const [bombMap, setBombMap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -60,34 +62,73 @@ const Home = () => {
   const board = (x: number, y: number) => {
     if (newBoard[y][x] === 0) {
       for (const w of directions) {
-        newBoard[y + w[0]][x + w[1]] === 0;
+        if (newBoard[y + w[0]][x + w[1]] === 0) {
+          board;
+        }
       }
+    } else {
     }
   };
 
   let gameClick = 0;
 
+  const countStones = (color: number, board: number[][]) => {
+    let count = 0;
+    for (const row of board) {
+      for (const cell of row) {
+        if (cell === color) {
+          count++;
+        }
+      }
+    }
+    return count;
+  };
+
   const onClick = (x: number, y: number) => {
+    console.log('クリック位置', x, y);
     if (gameClick === 0) {
+      // 一クリ目
       gameClick++;
-      if (userInputs[y][x] === 0) {
+      // ランダムに10個ボムをクリックしたマス以外で作成
+      for (let i = 0; i < 11; i++) {
+        const get = bombMap[Math.floor(Math.random() * bombMap.length)];
+      }
+      const indices = [];
+      for (let i = 0; i < bombMap.length; i++) {
+        for (let j = 0; j < bombMap[i].length; j++) {
+          indices.push([i, j]);
+        }
+      }
+      for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * indices.length);
+        const [rowIndex, colIndex] = indices[randomIndex];
+
+        // 11に設定します
+        bombMap[rowIndex][colIndex] = 11;
+
+        // 選択したインデックスは配列から削除します（重複を回避するため）
+        indices.splice(randomIndex, 1);
+      }
+      console.log(get);
+      newBomb[x][y] = 11;
+      board;
+    } else {
+      // 2クリ目以降
+      // クリックの関数を設置（再帰関数のやつ）
+      countStones(0, bombMap);
+      if (bombcount === count) {
       }
     }
   };
+
+  setBombMap(newBomb);
 
   return (
     <div className={styles.container}>
       <div className={styles.board}>
         {userInputs.map((row, y) =>
           row.map((color, x) => (
-            <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)}>
-              {color !== 0 && (
-                <div
-                  className={styles.hoge}
-                  style={{ background: color === 3 ? '#adff2f' : color === 1 ? '#000' : '#fff' }}
-                />
-              )}
-            </div>
+            <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)} />
           ))
         )}
       </div>
