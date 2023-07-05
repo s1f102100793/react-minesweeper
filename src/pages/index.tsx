@@ -1,4 +1,3 @@
-import { count } from 'console';
 import { useState } from 'react';
 import styles from './index.module.css';
 
@@ -20,8 +19,7 @@ const Home = () => {
   ]);
   const bombcount = 10;
   const newBoard: number[][] = JSON.parse(JSON.stringify(userInputs));
-  const newBomb: number[][] = JSON.parse(JSON.stringify(userInputs));
-
+  
   const [bombMap, setBombMap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -33,6 +31,7 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+  const newBomb: number[][] = JSON.parse(JSON.stringify(bombMap));
 
   const isPlaying = userInputs.some((row) => row.some((input) => input !== 0));
   const isFailing = userInputs.some((row, y) =>
@@ -60,19 +59,20 @@ const Home = () => {
 
   //再帰関数で0を押したら全部表示を切り替える
   const board = (x: number, y: number) => {
-      for (const w of directions) {
-        if (newBoard[y + w[0]][x + w[1]] === 0) {
-          board;
-        } else {
-          // そのマスを表示
-        }
+    for (const w of directions) {
+      if (newBoard[y + w[0]][x + w[1]] === 0) {
+        board;
+      } else {
+        // そのマスを表示
       }
+    }
   };
 
   let gameClick = 0;
 
+  let count = 0;
   const countStones = (color: number, board: number[][]) => {
-    let count = 0;
+  
     for (const row of board) {
       for (const cell of row) {
         if (cell === color) {
@@ -108,20 +108,21 @@ const Home = () => {
         // 選択したインデックスは配列から削除します（重複を回避するため）
         indices.splice(randomIndex, 1);
       }
-      console.log(get);
       newBomb[x][y] = 11;
       board;
+      console.log('一クリ目', x, y);
     } else {
       // 2クリ目以降
       // クリックの関数を設置（再帰関数のやつ）
       countStones(0, bombMap);
       if (bombcount === count) {
-        alert('GameClear')
+        alert('GameClear');
       }
+      console.log('2クリ目以降', x, y);
     }
   };
 
-  setBombMap(newBomb);
+  // setBombMap(newBomb);
 
   return (
     <div className={styles.container}>
