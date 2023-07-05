@@ -19,7 +19,7 @@ const Home = () => {
   ]);
   const bombcount = 10;
   const newBoard: number[][] = JSON.parse(JSON.stringify(userInputs));
-  
+
   const [bombMap, setBombMap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -72,7 +72,6 @@ const Home = () => {
 
   let count = 0;
   const countStones = (color: number, board: number[][]) => {
-  
     for (const row of board) {
       for (const cell of row) {
         if (cell === color) {
@@ -84,32 +83,53 @@ const Home = () => {
   };
 
   const onClick = (x: number, y: number) => {
-    console.log('クリック位置', x, y);
     if (gameClick === 0) {
       // 一クリ目
       gameClick++;
       // ランダムに10個ボムをクリックしたマス以外で作成
-      for (let i = 0; i < 11; i++) {
-        const get = bombMap[Math.floor(Math.random() * bombMap.length)];
-      }
-      const indices = [];
-      for (let i = 0; i < bombMap.length; i++) {
-        for (let j = 0; j < bombMap[i].length; j++) {
-          indices.push([i, j]);
+      let realbomb = 0;
+      while (realbomb <= bombcount) {
+        // Math.random()を使って爆弾のX座標とY座標をランダムに生成します。
+        const bombX = Math.floor(Math.random() * bombMap.length);
+        const bombY = Math.floor(Math.random() * bombMap[0].length);
+
+        // その場所に既に爆弾がないか確認します。もし爆弾がなければ爆弾を生成します。
+        if (bombMap[bombX][bombY] !== 1) {
+          // Reactの原則に従い、stateを直接操作せずに新しい配列を作成します。
+          const BombMapCopy = [...bombMap];
+          // ランダムに選択した場所に爆弾を配置します。
+          BombMapCopy[bombX][bombY] = 1;
+          // 新しい配列をstateにセットします。
+          setBombMap(BombMapCopy);
+          // 実際に生成された爆弾の数を増やします。
+          realbomb++;
         }
       }
-      for (let i = 0; i < 10; i++) {
-        const randomIndex = Math.floor(Math.random() * indices.length);
-        const [rowIndex, colIndex] = indices[randomIndex];
+      console.log(bombMap);
+      setBombMap(bombMap);
 
-        // 11に設定します
-        bombMap[rowIndex][colIndex] = 11;
+      // for (let i = 0; i < 11; i++) {
+      //   const get = bombMap[Math.floor(Math.random() * bombMap.length)];
+      // }
+      // const indices = [];
+      // for (let i = 0; i < bombMap.length; i++) {
+      //   for (let j = 0; j < bombMap[i].length; j++) {
+      //     indices.push([i, j]);
+      //   }
+      // }
+      // for (let i = 0; i < 10; i++) {
+      //   const randomIndex = Math.floor(Math.random() * indices.length);
+      //   const [rowIndex, colIndex] = indices[randomIndex];
 
-        // 選択したインデックスは配列から削除します（重複を回避するため）
-        indices.splice(randomIndex, 1);
-      }
-      newBomb[x][y] = 11;
-      board;
+      //   // 11に設定します
+      //   bombMap[rowIndex][colIndex] = 11;
+
+      //   // 選択したインデックスは配列から削除します（重複を回避するため）
+      //   indices.splice(randomIndex, 1);
+      // }
+      // newBomb[x][y] = 11;
+      // board;
+
       console.log('一クリ目', x, y);
     } else {
       // 2クリ目以降
