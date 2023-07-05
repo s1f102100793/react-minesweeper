@@ -60,14 +60,13 @@ const Home = () => {
 
   //再帰関数で0を押したら全部表示を切り替える
   const board = (x: number, y: number) => {
-    if (newBoard[y][x] === 0) {
       for (const w of directions) {
         if (newBoard[y + w[0]][x + w[1]] === 0) {
           board;
+        } else {
+          // そのマスを表示
         }
       }
-    } else {
-    }
   };
 
   let gameClick = 0;
@@ -117,6 +116,7 @@ const Home = () => {
       // クリックの関数を設置（再帰関数のやつ）
       countStones(0, bombMap);
       if (bombcount === count) {
+        alert('GameClear')
       }
     }
   };
