@@ -66,7 +66,7 @@ const Home = () => {
           newBomb[x][y]++;
         }
         if (bombMap[x][y] === 0) {
-          board(x, y);
+          // board(x, y);
         } else {
           // 数字を表示
         }
@@ -100,7 +100,7 @@ const Home = () => {
           for (const w of directions) {
             if (bombMap[y + w[0]] !== undefined && bombMap[y + w[0]][x + w[1]] === 11) {
               if (bombMap[y][x] !== 11) {
-                bombMap[y][x] += 1;
+                bombMap[y][x]++;
               } else {
                 continue;
               }
@@ -109,20 +109,23 @@ const Home = () => {
         }
       }
 
-      // board(x, y);
+      board(x, y);
       console.table(bombMap);
       setBombMap(bombMap);
       console.log('一クリ目', x, y);
     } else {
       // 2クリ目以降
       // クリックの関数を設置（再帰関数のやつ）
-      // board(x, y);
+      board(x, y);
       // countStones(0, bombMap);
       // if (bombcount === count) {
       //   alert('GameClear');
       // }
       console.log('2クリ目以降', x, y);
     }
+    userInputs[y][x] = 1;
+    console.table(userInputs);
+    setuserInputs(userInputs);
   };
 
   // setBombMap(newBomb);
