@@ -75,7 +75,7 @@ const Home = () => {
 
   let gameClick = 0;
 
-  const onClick = (x: number, y: number) => {
+  const onClick = (y: number, x: number) => {
     if (gameClick === 0) {
       // 一クリ目
       gameClick++;
@@ -84,9 +84,9 @@ const Home = () => {
       while (realbomb < bombcount) {
         const bombX = Math.floor(Math.random() * bombMap.length);
         const bombY = Math.floor(Math.random() * bombMap[0].length);
-        if (bombMap[bombX][bombY] !== 11 && `${bombX}${bombY}` !== `${x}${y}`) {
+        if (bombMap[bombY][bombX] !== 11 && `${bombY}${bombX}` !== `${y}${x}`) {
           const BombMapCopy = [...bombMap];
-          BombMapCopy[bombX][bombY] = 11;
+          BombMapCopy[bombY][bombX] = 11;
           setBombMap(BombMapCopy);
           realbomb++;
         }
@@ -113,11 +113,7 @@ const Home = () => {
     } else {
       // 2クリ目以降
       // クリックの関数を設置（再帰関数のやつ）
-      board(x, y);
-      // countStones(0, bombMap);
-      // if (bombcount === count) {
-      //   alert('GameClear');
-      // }
+      board(y, x);
       console.log('2クリ目以降', y, x);
     }
     userInputs[y][x] = 1;
@@ -132,7 +128,7 @@ const Home = () => {
       <div className={styles.board}>
         {userInputs.map((row, y) =>
           row.map((color, x) => (
-            <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)} />
+            <div className={styles.cell} key={`${y}-${x}`} onClick={() => onClick(y, x)} />
           ))
         )}
       </div>
