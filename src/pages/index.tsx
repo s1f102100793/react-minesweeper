@@ -88,20 +88,13 @@ const Home = () => {
       gameClick++;
       // ランダムに10個ボムをクリックしたマス以外で作成
       let realbomb = 0;
-      while (realbomb <= bombcount) {
-        // Math.random()を使って爆弾のX座標とY座標をランダムに生成します。
+      while (realbomb < bombcount) {
         const bombX = Math.floor(Math.random() * bombMap.length);
         const bombY = Math.floor(Math.random() * bombMap[0].length);
-
-        // その場所に既に爆弾がないか確認します。もし爆弾がなければ爆弾を生成します。
-        if (bombMap[bombX][bombY] !==  11) {
-          // Reactの原則に従い、stateを直接操作せずに新しい配列を作成します。
+        if (bombMap[bombX][bombY] !== 11 && `${bombX}${bombY}` !== `${x}${y}`) {
           const BombMapCopy = [...bombMap];
-          // ランダムに選択した場所に爆弾を配置します。
           BombMapCopy[bombX][bombY] = 11;
-          // 新しい配列をstateにセットします。
           setBombMap(BombMapCopy);
-          // 実際に生成された爆弾の数を増やします。
           realbomb++;
         }
       }
