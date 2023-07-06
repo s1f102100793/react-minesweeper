@@ -94,18 +94,18 @@ const Home = () => {
         const bombY = Math.floor(Math.random() * bombMap[0].length);
 
         // その場所に既に爆弾がないか確認します。もし爆弾がなければ爆弾を生成します。
-        if (bombMap[bombX][bombY] !== 1) {
+        if (bombMap[bombX][bombY] !==  11) {
           // Reactの原則に従い、stateを直接操作せずに新しい配列を作成します。
           const BombMapCopy = [...bombMap];
           // ランダムに選択した場所に爆弾を配置します。
-          BombMapCopy[bombX][bombY] = 1;
+          BombMapCopy[bombX][bombY] = 11;
           // 新しい配列をstateにセットします。
           setBombMap(BombMapCopy);
           // 実際に生成された爆弾の数を増やします。
           realbomb++;
         }
       }
-      console.log(bombMap);
+      console.table(bombMap);
       setBombMap(bombMap);
 
       // for (let i = 0; i < 11; i++) {
