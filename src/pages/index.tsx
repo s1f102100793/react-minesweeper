@@ -64,11 +64,11 @@ const Home = () => {
     } else {
       if (bombMap[y][x] === 0) {
         for (const w of directions) {
-          userInputs[y + w[0]][x + w[1]] === 1;
+          userInputs[y + w[0]][x + w[1]] = 1;
           board(y + w[0], x + w[1]);
         }
       } else {
-        userInputs[y][x] === 1;
+        userInputs[y][x] = 1;
       }
     }
   };
