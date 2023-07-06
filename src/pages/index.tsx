@@ -58,21 +58,18 @@ const Home = () => {
   ];
 
   //再帰関数で0を押したら全部表示を切り替える
-  const board = (x: number, y: number) => {
-    if (newBomb[x][y] !== 11) {
-      console.log('1');
-      for (const w of directions) {
-        if (newBomb[y + w[0]] !== undefined && newBomb[y + w[0]][x + w[1]] === 11) {
-          newBomb[x][y]++;
-        }
-        if (bombMap[x][y] === 0) {
-          // board(x, y);
-        } else {
-          // 数字を表示
-        }
-      }
+  const board = (y: number, x: number) => {
+    if (bombMap[y][x] === 11) {
+      alert('Gameover');
     } else {
-      alert('爆発！');
+      if (bombMap[y][x] === 0) {
+        for (const w of directions) {
+          userInputs[y + w[0]][x + w[1]] === 1;
+          board(y + w[0], x + w[1]);
+        }
+      } else {
+        userInputs[y][x] === 1;
+      }
     }
   };
 
@@ -109,10 +106,10 @@ const Home = () => {
         }
       }
 
-      board(x, y);
+      board(y, x);
       console.table(bombMap);
       setBombMap(bombMap);
-      console.log('一クリ目', x, y);
+      console.log('一クリ目', y, x);
     } else {
       // 2クリ目以降
       // クリックの関数を設置（再帰関数のやつ）
@@ -121,7 +118,7 @@ const Home = () => {
       // if (bombcount === count) {
       //   alert('GameClear');
       // }
-      console.log('2クリ目以降', x, y);
+      console.log('2クリ目以降', y, x);
     }
     userInputs[y][x] = 1;
     console.table(userInputs);
