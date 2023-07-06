@@ -59,28 +59,24 @@ const Home = () => {
 
   //再帰関数で0を押したら全部表示を切り替える
   const board = (x: number, y: number) => {
-    for (const w of directions) {
-      if (newBoard[y + w[0]][x + w[1]] === 0) {
-        board;
-      } else {
-        // そのマスを表示
+    if (newBomb[x][y] !== 11) {
+      console.log('1');
+      for (const w of directions) {
+        if (newBomb[y + w[0]] !== undefined && newBomb[y + w[0]][x + w[1]] === 11) {
+          newBomb[x][y]++;
+        }
+        if (bombMap[x][y] === 0) {
+          board(x, y);
+        } else {
+          // 数字を表示
+        }
       }
+    } else {
+      alert('爆発！');
     }
   };
 
   let gameClick = 0;
-
-  let count = 0;
-  const countStones = (color: number, board: number[][]) => {
-    for (const row of board) {
-      for (const cell of row) {
-        if (cell === color) {
-          count++;
-        }
-      }
-    }
-    return count;
-  };
 
   const onClick = (x: number, y: number) => {
     if (gameClick === 0) {
@@ -98,39 +94,33 @@ const Home = () => {
           realbomb++;
         }
       }
+
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          for (const w of directions) {
+            if (bombMap[y + w[0]] !== undefined && bombMap[y + w[0]][x + w[1]] === 11) {
+              if (bombMap[y][x] !== 11) {
+                bombMap[y][x] += 1;
+              } else {
+                continue;
+              }
+            }
+          }
+        }
+      }
+
+      // board(x, y);
       console.table(bombMap);
       setBombMap(bombMap);
-
-      // for (let i = 0; i < 11; i++) {
-      //   const get = bombMap[Math.floor(Math.random() * bombMap.length)];
-      // }
-      // const indices = [];
-      // for (let i = 0; i < bombMap.length; i++) {
-      //   for (let j = 0; j < bombMap[i].length; j++) {
-      //     indices.push([i, j]);
-      //   }
-      // }
-      // for (let i = 0; i < 10; i++) {
-      //   const randomIndex = Math.floor(Math.random() * indices.length);
-      //   const [rowIndex, colIndex] = indices[randomIndex];
-
-      //   // 11に設定します
-      //   bombMap[rowIndex][colIndex] = 11;
-
-      //   // 選択したインデックスは配列から削除します（重複を回避するため）
-      //   indices.splice(randomIndex, 1);
-      // }
-      // newBomb[x][y] = 11;
-      // board;
-
       console.log('一クリ目', x, y);
     } else {
       // 2クリ目以降
       // クリックの関数を設置（再帰関数のやつ）
-      countStones(0, bombMap);
-      if (bombcount === count) {
-        alert('GameClear');
-      }
+      // board(x, y);
+      // countStones(0, bombMap);
+      // if (bombcount === count) {
+      //   alert('GameClear');
+      // }
       console.log('2クリ目以降', x, y);
     }
   };
