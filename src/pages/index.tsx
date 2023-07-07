@@ -17,19 +17,19 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const bombcount = 1;
+  const bombcount = 10;
   const newBoard: number[][] = JSON.parse(JSON.stringify(userInputs));
 
   const [bombMap, setBombMap] = useState([
-    [11, 11, 11, 11, 11, 11, 11, 11, 11],
-    [11, 0, 0, 0, 0, 0, 0, 0, 11],
-    [11, 0, 0, 0, 0, 0, 0, 0, 11],
-    [11, 0, 0, 0, 0, 0, 0, 0, 11],
-    [11, 0, 0, 0, 0, 0, 0, 0, 11],
-    [11, 0, 0, 0, 0, 0, 0, 0, 11],
-    [11, 0, 0, 0, 0, 0, 0, 0, 11],
-    [11, 0, 0, 0, 0, 0, 0, 0, 11],
-    [11, 11, 11, 11, 11, 11, 11, 11, 11],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const newBomb: number[][] = JSON.parse(JSON.stringify(bombMap));
 
@@ -64,7 +64,11 @@ const Home = () => {
     } else {
       if (bombMap[y][x] === 0) {
         for (const w of directions) {
-          if (newBoard[y + w[0]] !== undefined && userInputs[y + w[0]][x + w[1]] !== 1) {
+          if (
+            newBoard[y + w[0]] !== undefined &&
+            newBoard[x + w[1]] !== undefined &&
+            userInputs[y + w[0]][x + w[1]] !== 1
+          ) {
             userInputs[y + w[0]][x + w[1]] = 1;
             board(y + w[0], x + w[1]);
           }
