@@ -162,10 +162,12 @@ const Home = () => {
     <div className={styles.container}>
       <div className={styles.board}>
         {board.map((row, y) =>
-          row.map((color, x) => (
-            <div className={styles.cell} key={`${y}-${x}`} onClick={() => onClick(y, x)}>
-              <h1>{color}</h1>
-            </div>
+          row.map((number, x) => (
+            <div
+              className={number === -1 ? styles.stone : styles.cell}
+              key={`${y}-${x}`}
+              onClick={() => onClick(y, x)}
+            />
           ))
         )}
       </div>

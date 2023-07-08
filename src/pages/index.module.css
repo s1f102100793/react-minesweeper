@@ -30,3 +30,15 @@
   height: 30px;
   background: url('~/assets/images/icons.png') no-repeat;
 }
+
+.stone {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 10px solid #FFF;
+  border-left: 10px solid #FFF;
+  border-bottom: 10px solid #808080;
+  border-right: 10px solid #808080;
+}
