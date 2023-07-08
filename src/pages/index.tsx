@@ -164,7 +164,7 @@ const Home = () => {
         {board.map((row, y) =>
           row.map((number, x) => (
             <div
-              className={number === -1 ? styles.stone : styles.cell}
+              className={number === -1 ? styles.stone : styles.number}
               key={`${y}-${x}`}
               onClick={() => onClick(y, x)}
             />

@@ -13,7 +13,7 @@
   flex-wrap: wrap;
   width: 720px;
   height: 720px;
-  background-color: #C6C6C6;
+  background-color: #c6c6c6;
 }
 
 .cell {
@@ -25,10 +25,12 @@
   justify-content: center;
 }
 
-.hoge {
-  width: 30px;
-  height: 30px;
+.number {
+  width: 80px;
+  height: 80px;
   background: url('~/assets/images/icons.png') no-repeat;
+  background-size: 1400%;
+  border: 2px solid #808080;
 }
 
 .stone {
@@ -37,8 +39,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 10px solid #FFF;
-  border-left: 10px solid #FFF;
+  border-top: 10px solid #fff;
+  border-left: 10px solid #fff;
   border-bottom: 10px solid #808080;
   border-right: 10px solid #808080;
 }
