@@ -30,19 +30,29 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    // [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    // [1, 1, 1, 1, 1, 1, 1, 1, 1],
   ]);
 
-  const board = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  const board: number[][] = [
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
   ];
+  // const newBoard = JSON.parse(JSON.stringify(board));
 
   // const isPlaying = userInputs.some((row) => row.some((input) => input !== 0));
   // const isFailing = userInputs.some((row, y) =>
@@ -68,103 +78,58 @@ const Home = () => {
     [0, -1],
   ];
 
-  //再帰関数で0を押したら全部表示を切り替える
-  // 使わない
-  // const clickBoard = (y: number, x: number) => {
-  //   if (board[y][x] === 0) {
-  //     for (const w of directions) {
-  //       if (
-  //         newBoard[y + w[0]] !== undefined &&
-  //         newBoard[x + w[1]] !== undefined &&
-  //         userInputs[y + w[0]][x + w[1]] !== 1
-  //       ) {
-  //         userInputs[y + w[0]][x + w[1]] = 1;
-  //         clickBoard(y + w[0], x + w[1]);
-  //       }
-  //     }
-  //   } else {
-  //     newBoard[y][x] = 1;
-  //     console.log('elseが機能している');
-  //   }
-  // };
-  let bomb = 0;
   const bombcounts = (y: number, x: number) => {
-    for (const w of directions) {
-      for (const w of directions) {
-        if (
-          board[y + w[0]] !== undefined &&
-          board[x + w[1]] !== undefined &&
-          bombMap[y + w[0]][x + w[1]] === 1
-        ) {
-          bomb++;
-        }
-      }
-      if (bomb === 0) {
-        bombcounts(y + w[0], x + w[1]);
-      } else {
-        board[y][x] = bomb;
+    let bomb = 0;
+    for (const w2 of directions) {
+      if (
+        board[y + w2[0]] !== undefined &&
+        board[x + w2[1]] !== undefined &&
+        bombMap[y + w2[0]][x + w2[1]] === 1 &&
+        userInputs[y + w2[0]][x + w2[1]] === 0 &&
+        board[y + w2[0]][x + w2[1]] === -1
+      ) {
+        bomb++;
+        // break;
       }
     }
+    if (bomb === 0) {
+      for (const w1 of directions) {
+        bombcounts(y + w1[0], x + w1[1]);
+        console.log('aaaaaaaaaaaaaaaaaaaa');
+      }
+    } else {
+      console.log(bomb);
+      board[y][x] = bomb;
+    }
   };
+
   for (let y = 0; y < 9; y++) {
     for (let x = 0; x < 9; x++) {
       // 再帰関数;
       if (userInputs[y][x] === 1) {
-        bombcounts;
+        bombcounts(y, x);
       }
     }
   }
 
-  // for (let y = 0; y < 9; y++) {
-  //   for (let x = 0; x < 9; x++) {
-  //     if (bombMap[y][x] === 1) {
-  //       board[y][x] = 11;
-  //     } else {
-  //       for (const w of directions) {
-  //         if (board[y + w[0]] !== undefined && bombMap[y + w[0]][x + w[1]] === 1) {
-  //           if (bombMap[y][x] !== 1) {
-  //             board[y][x]++;
-  //           } else {
-  //             continue;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // const clickBoard = (y: number, x: number) => {
-  //   if (board[y][x] === 0) {
-  //     for (const w of directions) {
-  //       board[y + w[0]][x + w[1]] = 1;
-  //     }
-  //   }
-  // };
-
-  // for (let y = 0; y < 9; y++) {
-  //   for (let x = 0; x < 9; x++) {
-  //     if (userInputs[y][x] === 1) {
-  //       clickBoard(y, x);
-  //     }
-  //   }
-  // }
-
   console.log('board');
   console.table(board);
+  console.log('bombMap');
+  console.table(bombMap);
+  console.log('userInputs');
+  console.table(userInputs);
 
-  // if (userInputs[y][x] === 1) {
-  //   if (bombMap[y][x] === 1) {
-  //     alert('Gameover');
-  //   } else {
-  //     clickBoard(y, x);
-  //   }
-  // }
-
+  let bombbb = 0;
+  for (let y = 0; y < 9; y++) {
+    for (let x = 0; x < 9; x++) {
+      if (bombMap[y][x] === 1) {
+        bombbb++;
+      }
+    }
+  }
   const onClick = (y: number, x: number) => {
-    let gameClick = 0;
-    if (gameClick === 0) {
+    if (bombbb === 0) {
       // 一クリ目
-      gameClick++;
       // ランダムに10個ボムをクリックしたマス以外で作成
       let realbomb = 0;
       while (realbomb < bombcount) {
@@ -173,19 +138,14 @@ const Home = () => {
         if (bombMap[bombY][bombX] !== 1 && `${bombY}${bombX}` !== `${y}${x}`) {
           const BombMapCopy = [...bombMap];
           BombMapCopy[bombY][bombX] = 1;
-          setBombMap(BombMapCopy);
           realbomb++;
+          setBombMap(BombMapCopy);
         }
       }
-      console.log('bombMap');
-      console.table(bombMap);
-      setBombMap(bombMap);
       console.log('一クリ目', y, x);
     }
 
-    userInputs[y][x] = 1;
-    console.log('userInputs');
-    console.table(userInputs);
+    newInputs[y][x] = 1;
     setuserInputs(newInputs);
   };
 
