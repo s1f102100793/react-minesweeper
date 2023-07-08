@@ -86,7 +86,8 @@ const Home = () => {
         board[x + w2[1]] !== undefined &&
         bombMap[y + w2[0]][x + w2[1]] === 1 &&
         userInputs[y + w2[0]][x + w2[1]] === 0 &&
-        board[y + w2[0]][x + w2[1]] === -1
+        board[y + w2[0]][x + w2[1]] === -1 &&
+        board[y + w2[0]][x + w2[1]] !== 0
       ) {
         bomb++;
         // break;
@@ -94,8 +95,14 @@ const Home = () => {
     }
     if (bomb === 0) {
       for (const w1 of directions) {
-        bombcounts(y + w1[0], x + w1[1]);
-        console.log('aaaaaaaaaaaaaaaaaaaa');
+        board[y][x] = 0;
+        if (
+          board[y + w1[0]] !== undefined &&
+          board[x + w1[1]] !== undefined &&
+          board[y + w1[0]][x + w1[1]] === -1
+        ) {
+          bombcounts(y + w1[0], x + w1[1]);
+        }
       }
     } else {
       console.log(bomb);
