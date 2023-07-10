@@ -135,25 +135,29 @@ const Home = () => {
     }
   }
   const onClick = (y: number, x: number) => {
-    if (bombbb === 0) {
-      // 一クリ目
-      // ランダムに10個ボムをクリックしたマス以外で作成
-      let realbomb = 0;
-      while (realbomb < bombcount) {
-        const bombX = Math.floor(Math.random() * bombMap.length);
-        const bombY = Math.floor(Math.random() * bombMap[0].length);
-        if (bombMap[bombY][bombX] !== 1 && `${bombY}${bombX}` !== `${y}${x}`) {
-          const BombMapCopy = [...bombMap];
-          BombMapCopy[bombY][bombX] = 1;
-          realbomb++;
-          setBombMap(BombMapCopy);
+    if (bombMap[y][x] === 1) {
+      alert('Gameover');
+    } else {
+      if (bombbb === 0) {
+        // 一クリ目
+        // ランダムに10個ボムをクリックしたマス以外で作成
+        let realbomb = 0;
+        while (realbomb < bombcount) {
+          const bombX = Math.floor(Math.random() * bombMap.length);
+          const bombY = Math.floor(Math.random() * bombMap[0].length);
+          if (bombMap[bombY][bombX] !== 1 && `${bombY}${bombX}` !== `${y}${x}`) {
+            const BombMapCopy = [...bombMap];
+            BombMapCopy[bombY][bombX] = 1;
+            realbomb++;
+            setBombMap(BombMapCopy);
+          }
         }
+        console.log('一クリ目', y, x);
       }
-      console.log('一クリ目', y, x);
-    }
 
-    newInputs[y][x] = 1;
-    setuserInputs(newInputs);
+      newInputs[y][x] = 1;
+      setuserInputs(newInputs);
+    }
   };
 
   // setBombMap(newBomb);
@@ -165,7 +169,7 @@ const Home = () => {
           row.map((number, x) => (
             <div
               className={number === -1 ? styles.stone : styles.number}
-              style={number >= 0 ? { backgroundPosition: `${(number -1 ) * -80}px 0` } : {}}
+              style={number >= 0 ? { backgroundPosition: `${(number - 1) * -80}px 0` } : {}}
               key={`${y}-${x}`}
               onClick={() => onClick(y, x)}
             />
