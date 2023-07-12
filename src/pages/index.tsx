@@ -40,11 +40,6 @@ const Home = () => {
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
   ];
-  // const newBoard = JSON.parse(JSON.stringify(board));
-  // const isPlaying = userInputs.some((row) => row.some((input) => input !== 0));
-  // const isFailing = userInputs.some((row, y) =>
-  //   row.some((input, x) => input === 1 && bombMap[y][x] === 1)
-  // );
   //  -1 -> 石
   // 0 -> 画像無しセル
   // 1~8 -> 数字セル
@@ -64,52 +59,32 @@ const Home = () => {
   ];
 
   const bombcounts = (y: number, x: number) => {
-    // if (board[y][x] === 11 && userInputs[y][x] === 1) {
-    //   for (const w3 of directions) {
-    //     if (
-    //       board[y + w3[0]] !== undefined &&
-    //       board[x + w3[1]] !== undefined &&
-    //       board[y + w3[0]][x + w3[1]] !== 11
-    //     ) {
-    //       board[y + w3[0]][x + w3[1]]++;
-    //     }
-    //   }
-    // }
     let bomb = 0;
     for (const w2 of directions) {
       if (
         board[y + w2[0]] !== undefined &&
         board[x + w2[1]] !== undefined &&
-        bombMap[y + w2[0]][x + w2[1]] === 1 &&
-        userInputs[y + w2[0]][x + w2[1]] === 0 &&
-        board[y + w2[0]][x + w2[1]] === -1
-      ) {
-        bomb++;
-        // break;
-      } else if (
-        board[y + w2[0]] !== undefined &&
-        board[x + w2[1]] !== undefined &&
-        bombMap[y + w2[0]][x + w2[1]] === 1 &&
-        userInputs[y + w2[0]][x + w2[1]] === 1 &&
-        board[y + w2[0]][x + w2[1]] === 11
+        bombMap[y + w2[0]][x + w2[1]] === 1
       ) {
         bomb++;
       }
     }
-    if (bomb === 0) {
-      for (const w1 of directions) {
-        board[y][x] = 0;
-        if (
-          board[y + w1[0]] !== undefined &&
-          board[x + w1[1]] !== undefined &&
-          board[y + w1[0]][x + w1[1]] === -1 &&
-          board[y][x] !== 11
-        ) {
-          bombcounts(y + w1[0], x + w1[1]);
+    if (board[y][x] !== 11) {
+      if (bomb === 0) {
+        for (const w1 of directions) {
+          board[y][x] = 0;
+          if (
+            board[y + w1[0]] !== undefined &&
+            board[x + w1[1]] !== undefined &&
+            board[y + w1[0]][x + w1[1]] === -1 &&
+            board[y][x] !== 11
+          ) {
+            bombcounts(y + w1[0], x + w1[1]);
+          }
         }
+      } else {
+        board[y][x] = bomb;
       }
-    } else {
-      board[y][x] = bomb;
     }
   };
 
@@ -117,7 +92,6 @@ const Home = () => {
     for (let x = 0; x < 9; x++) {
       if (userInputs[y][x] === 1) {
         if (bombMap[y][x] === 1) {
-          // alert('Gameover2');
           for (let y = 0; y < 9; y++) {
             for (let x = 0; x < 9; x++) {
               if (bombMap[y][x] === 1) {
@@ -148,9 +122,6 @@ const Home = () => {
     }
   }
   const onClick = (y: number, x: number) => {
-    // if (bombMap[y][x] === 1) {
-    //   alert('Gameover');
-    // } else {
     if (bombbb === 0) {
       // 一クリ目
       // ランダムに10個ボムをクリックしたマス以外で作成
@@ -169,15 +140,13 @@ const Home = () => {
     }
     newInputs[y][x] = 1;
     setuserInputs(newInputs);
-    // }
   };
-  // setBombMap(newBomb);
-  // setBombMap(newBomb);
+
   return (
     <div className={styles.container}>
       <div className={styles.boardboard}>
         <div className={styles.upper}>
-          <div className={styles.left} />
+          <div className={styles.left}> {String(bombcount).padStart(3, '0')} </div>
           <div className={styles.middle} />
           <div className={styles.right} />
         </div>

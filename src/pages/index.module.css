@@ -64,11 +64,16 @@
 .left {
   flex: 1;
   margin-left: 10px;
-  background-color: #c6c6c6;
+  background-color: #000;
   border-top: 5px solid #808080;
   border-left: 5px solid #808080;
   border-bottom: 5px solid #fff;
   border-right: 5px solid #fff;
+  color: red;
+  font-size: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .middle {
@@ -79,20 +84,35 @@
 .middle::before {
   position: absolute;
   content: '';
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background: url('~/assets/images/icons.png') no-repeat;
   background-size: 1400%;
   background-position: 84.56% 50%;
-  border: 2px solid #808080;
+  border: 5px #808080;
   left: 50%;
   transform: translateX(-50%);
+  border-top: 10px solid #fff;
+  border-left: 10px solid #fff;
+  border-bottom: 10px solid #808080;
+  border-right: 10px solid #808080;
+}
+
+.middle::after {
+  position: absolute;
+  content: '';
+  width: 96px;
+  height: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 3px solid #808080;
+  z-index: 0;
 }
 
 .right {
   flex: 1;
   margin-right: 10px;
-  background-color: #c6c6c6;
+  background-color: #000;
   border-top: 5px solid #808080;
   border-left: 5px solid #808080;
   border-bottom: 5px solid #fff;
@@ -129,8 +149,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 10px solid #fff;
-  border-left: 10px solid #fff;
-  border-bottom: 10px solid #808080;
-  border-right: 10px solid #808080;
+  border-top: 7px solid #fff;
+  border-left: 7px solid #fff;
+  border-bottom: 7px solid #808080;
+  border-right: 7px solid #808080;
 }
