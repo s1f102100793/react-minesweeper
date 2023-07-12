@@ -182,7 +182,7 @@ const Home = () => {
             row.map((number, x) => (
               <div
                 className={number === -1 ? styles.stone : styles.number}
-                style={number >= 0 ? { backgroundPosition: `${(number - 1) * -75.86}px 0` } : {}}
+                style={number >= 0 ? { backgroundPosition: `${(number - 1) * -55.83}px 0` } : {}}
                 key={`${y}-${x}`}
                 onClick={() => onClick(y, x)}
               />
