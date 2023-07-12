@@ -3,8 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 75vh; 
-  min-height: 75vh;
+  height: 100vh; 
+  min-height: 100vh;
   padding: 0 0.5rem;
 }
 
@@ -14,7 +14,7 @@
   justify-content: center;
   align-items: center;
   width: 660px; 
-  height: 1125px; 
+  height: 840px; 
   background-color: #C6C6C6;
   border-top: 15px solid #fff;
   border-left: 15px solid #fff;
@@ -28,8 +28,7 @@
   justify-content: center;
   align-items: center;
   width: 570px; 
-  height: 570px;
-  margin-bottom: 30px; 
+  height: 570px; 
   background-color: #C6C6C6;
   border-top: 15px solid #808080;
   border-left: 15px solid #808080;
@@ -42,9 +41,14 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 562.5px;
-  height: 82.5px;
-  background-color: #fff;
+  margin-top: 20px;
+  width: 570px;
+  height: 150px;
+  background-color: #C6C6C6;
+  border-top: 15px solid #808080;
+  border-left: 15px solid #808080;
+  border-bottom: 15px solid #fff;
+  border-right: 15px solid #fff;
 }
 
 .cell {
