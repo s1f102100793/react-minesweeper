@@ -109,6 +109,74 @@
   z-index: 0;
 }
 
+.over {
+  flex: 1.5;
+  position: relative;
+  margin-bottom: 100px;
+}
+
+.over::before {
+  position: absolute;
+  content: '';
+  width: 80px;
+  height: 80px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-size: 1400%;
+  background-position: 100% 50%;
+  border: 5px #808080;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top: 10px solid #fff;
+  border-left: 10px solid #fff;
+  border-bottom: 10px solid #808080;
+  border-right: 10px solid #808080;
+}
+
+.over::after {
+  position: absolute;
+  content: '';
+  width: 96px;
+  height: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 3px solid #808080;
+  z-index: 0;
+}
+
+.clear {
+  flex: 1.5;
+  position: relative;
+  margin-bottom: 100px;
+}
+
+.clear::before {
+  position: absolute;
+  content: '';
+  width: 80px;
+  height: 80px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-size: 1400%;
+  background-position: 92.25% 50%;
+  border: 5px #808080;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top: 10px solid #fff;
+  border-left: 10px solid #fff;
+  border-bottom: 10px solid #808080;
+  border-right: 10px solid #808080;
+}
+
+.clear::after {
+  position: absolute;
+  content: '';
+  width: 96px;
+  height: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 3px solid #808080;
+  z-index: 0;
+}
+
 .right {
   flex: 1;
   margin-right: 10px;

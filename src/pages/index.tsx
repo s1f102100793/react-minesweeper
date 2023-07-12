@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.css';
-const Home = (y: number, x: number) => {
+const Home = () => {
   // 0 -> 見クリック
   // 1 -> 左クリック
   // 2 -> はてな
@@ -210,7 +210,15 @@ const Home = (y: number, x: number) => {
       <div className={styles.boardboard}>
         <div className={styles.upper}>
           <div className={styles.left}> {String(bombcount).padStart(3, '0')} </div>
-          <div className={styles.middle} />
+          <div
+            className={
+              clearcount === bombcount2
+                ? styles.clear
+                : gameover === 1
+                ? styles.over
+                : styles.middle
+            }
+          />
           <div className={styles.right}>{String(timer).padStart(3, '0')}</div>
         </div>
         <div className={styles.board}>
