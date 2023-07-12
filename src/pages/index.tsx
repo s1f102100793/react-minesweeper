@@ -28,15 +28,6 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    // [1, 1, 1, 1, 1, 1, 1, 1, 1],
-    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    // [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    // [1, 1, 1, 1, 1, 1, 1, 1, 1],
   ]);
   const board: number[][] = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -71,6 +62,7 @@ const Home = () => {
     [1, -1],
     [0, -1],
   ];
+
   const bombcounts = (y: number, x: number) => {
     let bomb = 0;
     for (const w2 of directions) {
@@ -86,8 +78,9 @@ const Home = () => {
       } else if (
         board[y + w2[0]] !== undefined &&
         board[x + w2[1]] !== undefined &&
-        userInputs[y][x] === 1 &&
-        bombMap[y][x] === 1
+        bombMap[y + w2[0]][x + w2[1]] === 1 &&
+        userInputs[y + w2[0]][x + w2[1]] === 1 &&
+        board[y + w2[0]][x + w2[1]] === 11
       ) {
         bomb++;
       }
@@ -108,6 +101,7 @@ const Home = () => {
       board[y][x] = bomb;
     }
   };
+
   for (let y = 0; y < 9; y++) {
     for (let x = 0; x < 9; x++) {
       if (userInputs[y][x] === 1) {
@@ -120,7 +114,7 @@ const Home = () => {
               }
             }
           }
-          break;
+          continue;
         } else {
           bombcounts(y, x);
         }
@@ -165,6 +159,7 @@ const Home = () => {
     setuserInputs(newInputs);
     // }
   };
+  // setBombMap(newBomb);
   // setBombMap(newBomb);
   return (
     <div className={styles.container}>
