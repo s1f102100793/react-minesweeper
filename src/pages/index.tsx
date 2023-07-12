@@ -16,7 +16,7 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const bombcount = 10;
+  let bombcount = 10;
   const newInputs: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(userInputs));
   const [bombMap, setBombMap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -104,6 +104,12 @@ const Home = () => {
           bombcounts(y, x);
         }
       }
+      if (userInputs[y][x] === 2) {
+        board[y][x] = 10;
+        bombcount--;
+      } else if (userInputs[y][x] === 3) {
+        board[y][x] = 9;
+      }
     }
   }
 
@@ -121,25 +127,38 @@ const Home = () => {
       }
     }
   }
-  const onClick = (y: number, x: number) => {
-    if (bombbb === 0) {
-      // 一クリ目
-      // ランダムに10個ボムをクリックしたマス以外で作成
-      let realbomb = 0;
-      while (realbomb < bombcount) {
-        const bombX = Math.floor(Math.random() * bombMap.length);
-        const bombY = Math.floor(Math.random() * bombMap[0].length);
-        if (bombMap[bombY][bombX] !== 1 && `${bombY}${bombX}` !== `${y}${x}`) {
-          const BombMapCopy = [...bombMap];
-          BombMapCopy[bombY][bombX] = 1;
-          realbomb++;
-          setBombMap(BombMapCopy);
+  const onClick = (y: number, x: number, e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button === 2) {
+      // 右クリック
+      e.preventDefault();
+      const newInputs = [...userInputs];
+      const currentValue = newInputs[y][x];
+      if (currentValue === 0) newInputs[y][x] = 2;
+      else if (currentValue === 2) newInputs[y][x] = 3;
+      else if (currentValue === 3) newInputs[y][x] = 0;
+      setuserInputs(newInputs); // userInputsを更新
+    } else {
+      if (userInputs[y][x] === 0) {
+        if (bombbb === 0) {
+          // 一クリ目
+          // ランダムに10個ボムをクリックしたマス以外で作成
+          let realbomb = 0;
+          while (realbomb < bombcount) {
+            const bombX = Math.floor(Math.random() * bombMap.length);
+            const bombY = Math.floor(Math.random() * bombMap[0].length);
+            if (bombMap[bombY][bombX] !== 1 && `${bombY}${bombX}` !== `${y}${x}`) {
+              const BombMapCopy = [...bombMap];
+              BombMapCopy[bombY][bombX] = 1;
+              realbomb++;
+              setBombMap(BombMapCopy);
+            }
+          }
+          console.log('一クリ目', y, x);
         }
+        newInputs[y][x] = 1;
+        setuserInputs(newInputs);
       }
-      console.log('一クリ目', y, x);
     }
-    newInputs[y][x] = 1;
-    setuserInputs(newInputs);
   };
 
   return (
@@ -157,7 +176,8 @@ const Home = () => {
                 className={number === -1 ? styles.stone : styles.number}
                 style={number >= 0 ? { backgroundPosition: `${(number - 1) * -55.83}px 0` } : {}}
                 key={`${y}-${x}`}
-                onClick={() => onClick(y, x)}
+                onClick={(e) => onClick(y, x, e)}
+                onContextMenu={(e) => onClick(y, x, e)}
               />
             ))
           )}
