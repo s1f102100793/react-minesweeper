@@ -175,7 +175,8 @@ const Home = () => {
   // setBombMap(newBomb);
   return (
     <div className={styles.container}>
-      <div className={styles.upper}>
+      <div className={styles.boardboard}>
+        <div className={styles.upper}/>
         <div className={styles.board}>
           {board.map((row, y) =>
             row.map((number, x) => (
