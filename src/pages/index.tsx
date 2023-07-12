@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './index.module.css';
-const Home = () => {
+const Home = (y: number, x: number) => {
   // 0 -> 見クリック
   // 1 -> 左クリック
   // 2 -> はてな
@@ -17,6 +17,7 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   let bombcount = 10;
+  const bombcount2 = bombcount;
   const newInputs: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(userInputs));
   const [bombMap, setBombMap] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -88,6 +89,7 @@ const Home = () => {
     }
   };
 
+  let clearcount = 0;
   for (let y = 0; y < 9; y++) {
     for (let x = 0; x < 9; x++) {
       if (userInputs[y][x] === 1) {
@@ -110,7 +112,33 @@ const Home = () => {
       } else if (userInputs[y][x] === 3) {
         board[y][x] = 9;
       }
+      // if (bombMap[y][x] === 1) {
+      //   if (board[y][x] === -1 || board[y][x] === 10) {
+      //     clearcount++;
+      //     console.log('clearcount',clearcount)
+      //   }
+      // }
     }
+  }
+
+  for (let y = 0; y < 9; y++) {
+    for (let x = 0; x < 9; x++) {
+      if (board[y][x] === -1 || board[y][x] === 10 || board[y][x] === 9) {
+        clearcount++;
+        console.log('clearcount', clearcount);
+      }
+    }
+  }
+
+  if (clearcount === bombcount2) {
+    for (let y = 0; y < 9; y++) {
+      for (let x = 0; x < 9; x++) {
+        if (bombMap[y][x] === 1) {
+          board[y][x] = 10;
+        }
+      }
+    }
+    alert('GameClear');
   }
 
   console.log('board');
