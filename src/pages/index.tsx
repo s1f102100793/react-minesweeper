@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 const Home = (y: number, x: number) => {
   // 0 -> 見クリック
@@ -48,6 +48,9 @@ const Home = (y: number, x: number) => {
   // 10 -> 石+旗
   // 11 -> ボムセル
   // borad = userInputs + bombMap
+
+  const [timer, setTimer] = useState<number>(0);
+
   const directions: number[][] = [
     [-1, -1],
     [-1, 0],
@@ -182,6 +185,7 @@ const Home = (y: number, x: number) => {
             }
           }
           console.log('一クリ目', y, x);
+          setTimer(0);
         }
         newInputs[y][x] = 1;
         setuserInputs(newInputs);
@@ -189,13 +193,23 @@ const Home = (y: number, x: number) => {
     }
   };
 
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (bombbb > 0 && clearcount !== bombcount2) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [bombbb, clearcount, bombcount, bombcount2]);
+
   return (
     <div className={styles.container}>
       <div className={styles.boardboard}>
         <div className={styles.upper}>
           <div className={styles.left}> {String(bombcount).padStart(3, '0')} </div>
           <div className={styles.middle} />
-          <div className={styles.right} />
+          <div className={styles.right}>{String(timer).padStart(3, '0')}</div>
         </div>
         <div className={styles.board}>
           {board.map((row, y) =>
