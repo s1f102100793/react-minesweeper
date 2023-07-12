@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; 
+  height: 100vh;
   min-height: 100vh;
   padding: 0 0.5rem;
 }
@@ -13,9 +13,9 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 660px; 
-  height: 840px; 
-  background-color: #C6C6C6;
+  width: 660px;
+  height: 840px;
+  background-color: #c6c6c6;
   border-top: 15px solid #fff;
   border-left: 15px solid #fff;
   border-bottom: 15px solid #808080;
@@ -27,9 +27,9 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 570px; 
-  height: 570px; 
-  background-color: #C6C6C6;
+  width: 570px;
+  height: 570px;
+  background-color: #c6c6c6;
   border-top: 15px solid #808080;
   border-left: 15px solid #808080;
   border-bottom: 15px solid #fff;
@@ -44,15 +44,70 @@
   margin-top: 20px;
   width: 570px;
   height: 150px;
-  background-color: #C6C6C6;
+  background-color: #c6c6c6;
   border-top: 15px solid #808080;
   border-left: 15px solid #808080;
   border-bottom: 15px solid #fff;
   border-right: 15px solid #fff;
 }
 
+.left,
+.middle,
+.right {
+  height: 80%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left {
+  flex: 1;
+  margin-left: 10px;
+  background-color: #c6c6c6;
+  border-top: 5px solid #808080;
+  border-left: 5px solid #808080;
+  border-bottom: 5px solid #fff;
+  border-right: 5px solid #fff;
+}
+
+.middle {
+  flex: 1.5;
+  position: relative;
+}
+
+.middle::before {
+  position: absolute;
+  content: '';
+  width: 100px;
+  height: 100px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-size: 1400%;
+  background-position: 84.56% 50%;
+  border: 2px solid #808080;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.right {
+  flex: 1;
+  margin-right: 10px;
+  background-color: #c6c6c6;
+  border-top: 5px solid #808080;
+  border-left: 5px solid #808080;
+  border-bottom: 5px solid #fff;
+  border-right: 5px solid #fff;
+}
+@media only screen and (max-width: 480px) {
+  .left,
+  .middle,
+  .right {
+    flex-direction: column;
+  }
+}
+
 .cell {
-  width: 60px; 
+  width: 60px;
   height: 60px;
   border: 1px solid black;
   display: flex;
@@ -61,7 +116,7 @@
 }
 
 .number {
-  width: 60px; 
+  width: 60px;
   height: 60px;
   background: url('~/assets/images/icons.png') no-repeat;
   background-size: 1400%;
@@ -69,7 +124,7 @@
 }
 
 .stone {
-  width: 60px; 
+  width: 60px;
   height: 60px;
   display: flex;
   align-items: center;

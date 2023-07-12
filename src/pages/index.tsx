@@ -176,7 +176,11 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.boardboard}>
-        <div className={styles.upper}/>
+        <div className={styles.upper}>
+          <div className={styles.left} />
+          <div className={styles.middle} />
+          <div className={styles.right} />
+        </div>
         <div className={styles.board}>
           {board.map((row, y) =>
             row.map((number, x) => (
