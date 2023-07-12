@@ -64,6 +64,17 @@ const Home = () => {
   ];
 
   const bombcounts = (y: number, x: number) => {
+    // if (board[y][x] === 11 && userInputs[y][x] === 1) {
+    //   for (const w3 of directions) {
+    //     if (
+    //       board[y + w3[0]] !== undefined &&
+    //       board[x + w3[1]] !== undefined &&
+    //       board[y + w3[0]][x + w3[1]] !== 11
+    //     ) {
+    //       board[y + w3[0]][x + w3[1]]++;
+    //     }
+    //   }
+    // }
     let bomb = 0;
     for (const w2 of directions) {
       if (
@@ -121,6 +132,7 @@ const Home = () => {
       }
     }
   }
+
   console.log('board');
   console.table(board);
   console.log('bombMap');
@@ -163,17 +175,19 @@ const Home = () => {
   // setBombMap(newBomb);
   return (
     <div className={styles.container}>
-      <div className={styles.board}>
-        {board.map((row, y) =>
-          row.map((number, x) => (
-            <div
-              className={number === -1 ? styles.stone : styles.number}
-              style={number >= 0 ? { backgroundPosition: `${(number - 1) * -75.86}px 0` } : {}}
-              key={`${y}-${x}`}
-              onClick={() => onClick(y, x)}
-            />
-          ))
-        )}
+      <div className={styles.upper}>
+        <div className={styles.board}>
+          {board.map((row, y) =>
+            row.map((number, x) => (
+              <div
+                className={number === -1 ? styles.stone : styles.number}
+                style={number >= 0 ? { backgroundPosition: `${(number - 1) * -75.86}px 0` } : {}}
+                key={`${y}-${x}`}
+                onClick={() => onClick(y, x)}
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
