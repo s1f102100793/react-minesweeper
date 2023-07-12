@@ -92,6 +92,7 @@ const Home = (y: number, x: number) => {
     }
   };
 
+  let gameover = 0;
   let clearcount = 0;
   for (let y = 0; y < 9; y++) {
     for (let x = 0; x < 9; x++) {
@@ -101,6 +102,7 @@ const Home = (y: number, x: number) => {
             for (let x = 0; x < 9; x++) {
               if (bombMap[y][x] === 1) {
                 board[y][x] = 11;
+                gameover = 1;
               }
             }
           }
@@ -195,13 +197,13 @@ const Home = (y: number, x: number) => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (bombbb > 0 && clearcount !== bombcount2) {
+    if (bombbb > 0 && clearcount !== bombcount2 && gameover === 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [bombbb, clearcount, bombcount, bombcount2]);
+  }, [bombbb, clearcount, bombcount, bombcount2, gameover]);
 
   return (
     <div className={styles.container}>
