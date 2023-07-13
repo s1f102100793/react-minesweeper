@@ -39,7 +39,7 @@
 .upper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin-top: 20px;
   width: 570px;
@@ -62,9 +62,9 @@
 }
 
 .left {
-  flex: 1;
+  flex: 1.5;
   margin-left: 10px;
-  margin-right: 40px;
+  margin-right: 10px;
   background-color: #000;
   border-top: 5px solid #808080;
   border-left: 5px solid #808080;
@@ -78,9 +78,10 @@
 }
 
 .middle {
-  flex: 0.4;
+  flex: 1;
   position: relative;
-  background-color: #c6c6c6;
+  background-color: transparent;
+  border: 0;
 }
 
 .middle::before {
@@ -91,6 +92,7 @@
   background: url('~/assets/images/icons.png') no-repeat;
   background-size: 1400%;
   background-position: 84.56% 50%;
+  border: 5px #808080;
   left: 50%;
   transform: translateX(-50%);
   border-top: 10px solid #fff;
@@ -110,11 +112,12 @@
   z-index: 0;
 }
 
-
 .over {
-  flex: 1.5;
+  flex: 1;
   position: relative;
   margin-bottom: 100px;
+  background-color: transparent;
+  border: 0;
 }
 
 .over::before {
@@ -146,9 +149,11 @@
 }
 
 .clear {
-  flex: 1.5;
+  flex: 1;
   position: relative;
   margin-bottom: 100px;
+  background-color: transparent;
+  border: 0;
 }
 
 .clear::before {
@@ -180,9 +185,9 @@
 }
 
 .right {
-  flex: 1;
+  flex: 1.5;
   margin-right: 10px;
-  margin-left: 40px;
+  margin-left: 10px;
   background-color: #000;
   border-top: 5px solid #808080;
   border-left: 5px solid #808080;
@@ -193,13 +198,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-@media only screen and (max-width: 480px) {
-  .left,
-  .middle,
-  .right {
-    flex-direction: column;
-  }
 }
 
 .cell {
@@ -230,3 +228,5 @@
   border-bottom: 7px solid #808080;
   border-right: 7px solid #808080;
 }
+
+
