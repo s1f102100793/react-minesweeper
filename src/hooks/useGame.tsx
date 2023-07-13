@@ -199,6 +199,7 @@ export const useGame = () => {
   }, [bombbb, clearcount, bombcount, bombcount2, gameover]);
 
   const resetboard = () => {
+    console.log('1')
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
         board[y][x] = -1;

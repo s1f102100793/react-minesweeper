@@ -13,7 +13,7 @@ const Home = () => {
           clearcount={clearcount}
           bombcount2={bombcount2}
           gameover={gameover}
-          resetboard={() => resetboard}
+          resetboard={resetboard}
           timer={timer}
         />
         <div className={styles.board}>
