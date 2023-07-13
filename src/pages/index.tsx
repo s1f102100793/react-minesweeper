@@ -143,7 +143,7 @@ const Home = () => {
         }
       }
     }
-    alert('GameClear');
+    // alert('GameClear');
   }
 
   console.log('board');
@@ -205,12 +205,24 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [bombbb, clearcount, bombcount, bombcount2, gameover]);
 
+  const resetboard = () => {
+    for (let y = 0; y < 9; y++) {
+      for (let x = 0; x < 9; x++) {
+        board[y][x] = -1;
+        userInputs[y][x] = 0;
+        bombMap[y][x] = 0;
+      }
+    }
+    bombbb = 0;
+    setTimer(0);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.boardboard}>
         <div className={styles.upper}>
           <div className={styles.left}> {String(bombcount).padStart(3, '0')} </div>
-          <div
+          <button
             className={
               clearcount === bombcount2
                 ? styles.clear
@@ -218,6 +230,7 @@ const Home = () => {
                 ? styles.over
                 : styles.middle
             }
+            onClick={resetboard}
           />
           <div className={styles.right}>{String(timer).padStart(3, '0')}</div>
         </div>
