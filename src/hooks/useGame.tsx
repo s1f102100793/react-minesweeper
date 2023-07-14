@@ -1,56 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useBoard } from './useBoard';
 
 export const useGame = () => {
-  // 0 -> 見クリック
-  // 1 -> 左クリック
-  // 2 -> はてな
-  // 3 -> 旗
-  const [userInputs, setuserInputs] = useState<(0 | 1 | 2 | 3)[][]>([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
-  let bombcount = 10;
-  const bombcount2 = bombcount;
-  const newInputs: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(userInputs));
-  const [bombMap, setBombMap] = useState([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
-  const board: number[][] = [
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-  ];
-  //  -1 -> 石
-  // 0 -> 画像無しセル
-  // 1~8 -> 数字セル
-  // 9 -> 石+はてな
-  // 10 -> 石+旗
-  // 11 -> ボムセル
-  // borad = userInputs + bombMap
-
+  const { board, userInputs, bombMap, setuserInputs, setBombMap, newInputs } = useBoard();
   const [timer, setTimer] = useState<number>(0);
 
+  const bombcount = 10;
+  let bombcount2 = bombcount;
   const directions: number[][] = [
     [-1, -1],
     [-1, 0],
@@ -113,7 +69,7 @@ export const useGame = () => {
       }
       if (userInputs[y][x] === 2) {
         board[y][x] = 10;
-        bombcount--;
+        bombcount2--;
       } else if (userInputs[y][x] === 3) {
         board[y][x] = 9;
       }
@@ -124,7 +80,7 @@ export const useGame = () => {
     for (let x = 0; x < 9; x++) {
       if (board[y][x] === -1 || board[y][x] === 10 || board[y][x] === 9) {
         clearcount++;
-        console.log('clearcount', clearcount);
+        // console.log('clearcount', clearcount);
       }
     }
   }
@@ -139,21 +95,8 @@ export const useGame = () => {
     }
   }
 
-  console.log('board');
-  console.table(board);
-  console.log('bombMap');
-  console.table(bombMap);
-  console.log('userInputs');
-  console.table(userInputs);
-  let bombbb = 0;
-  for (let y = 0; y < 9; y++) {
-    for (let x = 0; x < 9; x++) {
-      if (bombMap[y][x] === 1) {
-        bombbb++;
-      }
-    }
-  }
   const onClick = (y: number, x: number, e: React.MouseEvent<HTMLDivElement>) => {
+    console.log('押されている');
     if (e.button === 2) {
       // 右クリック
       e.preventDefault();
@@ -188,18 +131,16 @@ export const useGame = () => {
     }
   };
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (bombbb > 0 && clearcount !== bombcount2 && gameover === 0) {
-      interval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer + 1);
-      }, 1000);
+  let bombbb = 0;
+  for (let y = 0; y < 9; y++) {
+    for (let x = 0; x < 9; x++) {
+      if (bombMap[y][x] === 1) {
+        bombbb++;
+      }
     }
-    return () => clearInterval(interval);
-  }, [bombbb, clearcount, bombcount, bombcount2, gameover]);
+  }
 
   const resetboard = () => {
-    console.log('1')
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
         board[y][x] = -1;
@@ -211,5 +152,22 @@ export const useGame = () => {
     setTimer(0);
   };
 
-  return { bombcount, clearcount, bombcount2, gameover, resetboard, timer, board, onClick };
+  console.log('board');
+  console.table(board);
+  console.log('bombMap');
+  console.table(bombMap);
+  console.log('userInputs');
+  console.table(userInputs);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (bombbb > 0 && clearcount !== bombcount2 && gameover === 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [bombbb, clearcount, bombcount, bombcount2, gameover]);
+
+  return { clearcount, gameover, timer, onClick, setTimer, bombcount2, resetboard, board };
 };

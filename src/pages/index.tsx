@@ -1,10 +1,14 @@
 import { Upper } from '../components/Upper';
+import { useBoard } from '../hooks/useBoard';
 import { useGame } from '../hooks/useGame';
 import styles from './index.module.css';
 
 const Home = () => {
-  const { bombcount, clearcount, bombcount2, board, gameover, timer, resetboard, onClick } =
-    useGame();
+  const { bombcount } = useBoard();
+  const { clearcount, gameover, timer, onClick, bombcount2, resetboard, board } = useGame();
+
+  console.log('return前');
+  console.table(board);
   return (
     <div className={styles.container}>
       <div className={styles.boardboard}>
