@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useBoard } from './useBoard';
-
 export const useGame = () => {
   const {
     board,
@@ -13,9 +12,7 @@ export const useGame = () => {
     bombcount,
   } = useBoard();
   const [timer, setTimer] = useState<number>(0);
-
   let bombcount2 = bombcount;
-
   const countSurroundingBombs = (y: number, x: number, w2: number[]): boolean => {
     return (
       board[y + w2[0]] !== undefined &&
@@ -23,7 +20,6 @@ export const useGame = () => {
       bombMap[y + w2[0]][x + w2[1]] === 1
     );
   };
-
   const sValidAndEmptySpace = (y: number, x: number, w1: number[]) => {
     return (
       board[y + w1[0]] !== undefined &&
@@ -32,7 +28,6 @@ export const useGame = () => {
       board[y][x] !== 11
     );
   };
-
   const updateBoardAndBombCounts = (y: number, x: number, bomb: number) => {
     if (bomb === 0) {
       for (const w1 of directions) {
@@ -45,7 +40,6 @@ export const useGame = () => {
       board[y][x] = bomb;
     }
   };
-
   const bombcounts = (y: number, x: number) => {
     let bomb = 0;
     for (const w2 of directions) {
@@ -57,7 +51,6 @@ export const useGame = () => {
       updateBoardAndBombCounts(y, x, bomb);
     }
   };
-
   let gameover = 0;
   let clearcount = 0;
   const revealAllBombs = () => {
@@ -70,7 +63,6 @@ export const useGame = () => {
       }
     }
   };
-
   const iterateBoard = (callback: (y: number, x: number) => void) => {
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
@@ -78,69 +70,87 @@ export const useGame = () => {
       }
     }
   };
-
-  iterateBoard((y, x) => {
-    if (userInputs[y][x] === 1 && bombMap[y][x] === 1) {
-      revealAllBombs();
-      return;
-    }
-    if (userInputs[y][x] === 1) {
-      bombcounts(y, x);
-    }
-    if (userInputs[y][x] === 2) {
-      board[y][x] = 10;
-      bombcount2--;
-    } else if (userInputs[y][x] === 3) {
-      board[y][x] = 9;
-    }
-  });
-
   iterateBoard((y, x) => {
     if (board[y][x] === -1 || board[y][x] === 10 || board[y][x] === 9) {
       clearcount++;
       // console.log('clearcount', clearcount);
     }
   });
+  const processCell = (y: number, x: number) => {
+    if (userInputs[y][x] === 1) {
+      if (bombMap[y][x] === 1) {
+        revealAllBombs();
+        return;
+      }
+      bombcounts(y, x);
+    } else if (userInputs[y][x] === 2) {
+      board[y][x] = 10;
+      bombcount2--;
+    } else if (userInputs[y][x] === 3) {
+      board[y][x] = 9;
+    }
+  };
+
+  const processBoard = () => {
+    iterateBoard(processCell);
+  };
+
+  processBoard();
+
+  const checkAndSetBoard = (y: number, x: number) => {
+    if (bombMap[y][x] === 1) {
+      board[y][x] = 10;
+    }
+  };
 
   if (clearcount === bombcount2) {
-    for (let y = 0; y < 9; y++) {
-      for (let x = 0; x < 9; x++) {
-        if (bombMap[y][x] === 1) {
-          board[y][x] = 10;
-        }
+    iterateBoard(checkAndSetBoard);
+  }
+
+  const handleInputChange = (y: number, x: number, currentValue: number) => {
+    const newInputs = [...userInputs];
+    if (currentValue === 0) newInputs[y][x] = 2;
+    else if (currentValue === 2) newInputs[y][x] = 3;
+    else if (currentValue === 3) newInputs[y][x] = 0;
+    setuserInputs(newInputs);
+  };
+
+  const handleFirstClick = (y: number, x: number) => {
+    let realbomb = 0;
+    while (realbomb < bombcount) {
+      const bombX = Math.floor(Math.random() * bombMap.length);
+      const bombY = Math.floor(Math.random() * bombMap[0].length);
+      if (bombMap[bombY][bombX] !== 1 && `${bombY}${bombX}` !== `${y}${x}`) {
+        const BombMapCopy = [...bombMap];
+        BombMapCopy[bombY][bombX] = 1;
+        realbomb++;
+        setBombMap(BombMapCopy);
       }
     }
-  }
+    console.log('一クリ目', y, x);
+    setTimer(0);
+  };
+
+  const handleCellClick = (y: number, x: number) => {
+    if (bombbb === 0) {
+      handleFirstClick(y, x);
+    }
+    const newInputs = [...userInputs];
+    newInputs[y][x] = 1;
+    setuserInputs(newInputs);
+  };
 
   const onClick = (y: number, x: number, e: React.MouseEvent<HTMLDivElement>) => {
     console.log('押されている');
     if (e.button === 2) {
       // 右クリック
       e.preventDefault();
-      const newInputs = [...userInputs];
       const currentValue = newInputs[y][x];
-      if (currentValue === 0) newInputs[y][x] = 2;
-      else if (currentValue === 2) newInputs[y][x] = 3;
-      else if (currentValue === 3) newInputs[y][x] = 0;
-      setuserInputs(newInputs); // userInputsを更新
+      handleInputChange(y, x, currentValue);
     } else {
       if (userInputs[y][x] === 0) {
         if (bombbb === 0) {
-          // 一クリ目
-          // ランダムに10個ボムをクリックしたマス以外で作成
-          let realbomb = 0;
-          while (realbomb < bombcount) {
-            const bombX = Math.floor(Math.random() * bombMap.length);
-            const bombY = Math.floor(Math.random() * bombMap[0].length);
-            if (bombMap[bombY][bombX] !== 1 && `${bombY}${bombX}` !== `${y}${x}`) {
-              const BombMapCopy = [...bombMap];
-              BombMapCopy[bombY][bombX] = 1;
-              realbomb++;
-              setBombMap(BombMapCopy);
-            }
-          }
-          console.log('一クリ目', y, x);
-          setTimer(0);
+          handleCellClick(y, x);
         }
         newInputs[y][x] = 1;
         setuserInputs(newInputs);

@@ -56,6 +56,6 @@ export const useBoard = () => {
     setuserInputs,
     setBombMap,
     newInputs,
-    directions
+    directions,
   };
 };
