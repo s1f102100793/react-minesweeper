@@ -2,21 +2,19 @@ import { useEffect, useState } from 'react';
 import { useBoard } from './useBoard';
 
 export const useGame = () => {
-  const { board, userInputs, bombMap, setuserInputs, setBombMap, newInputs } = useBoard();
+  const {
+    board,
+    userInputs,
+    bombMap,
+    setuserInputs,
+    setBombMap,
+    newInputs,
+    directions,
+    bombcount,
+  } = useBoard();
   const [timer, setTimer] = useState<number>(0);
 
-  const bombcount = 10;
   let bombcount2 = bombcount;
-  const directions: number[][] = [
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, 1],
-    [1, 1],
-    [1, 0],
-    [1, -1],
-    [0, -1],
-  ];
 
   const countSurroundingBombs = (y: number, x: number, w2: number[]): boolean => {
     return (
@@ -73,32 +71,36 @@ export const useGame = () => {
     }
   };
 
-  for (let y = 0; y < 9; y++) {
-    for (let x = 0; x < 9; x++) {
-      if (userInputs[y][x] === 1 && bombMap[y][x] === 1) {
-        revealAllBombs();
-        continue;
-      }
-      if (userInputs[y][x] === 1) {
-        bombcounts(y, x);
-      }
-      if (userInputs[y][x] === 2) {
-        board[y][x] = 10;
-        bombcount2--;
-      } else if (userInputs[y][x] === 3) {
-        board[y][x] = 9;
+  const iterateBoard = (callback: (y: number, x: number) => void) => {
+    for (let y = 0; y < 9; y++) {
+      for (let x = 0; x < 9; x++) {
+        callback(y, x);
       }
     }
-  }
+  };
 
-  for (let y = 0; y < 9; y++) {
-    for (let x = 0; x < 9; x++) {
-      if (board[y][x] === -1 || board[y][x] === 10 || board[y][x] === 9) {
-        clearcount++;
-        // console.log('clearcount', clearcount);
-      }
+  iterateBoard((y, x) => {
+    if (userInputs[y][x] === 1 && bombMap[y][x] === 1) {
+      revealAllBombs();
+      return;
     }
-  }
+    if (userInputs[y][x] === 1) {
+      bombcounts(y, x);
+    }
+    if (userInputs[y][x] === 2) {
+      board[y][x] = 10;
+      bombcount2--;
+    } else if (userInputs[y][x] === 3) {
+      board[y][x] = 9;
+    }
+  });
+
+  iterateBoard((y, x) => {
+    if (board[y][x] === -1 || board[y][x] === 10 || board[y][x] === 9) {
+      clearcount++;
+      // console.log('clearcount', clearcount);
+    }
+  });
 
   if (clearcount === bombcount2) {
     for (let y = 0; y < 9; y++) {

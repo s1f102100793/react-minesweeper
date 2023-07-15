@@ -37,6 +37,17 @@ export const useBoard = () => {
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
   ];
 
+  const directions: number[][] = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, 1],
+    [1, 1],
+    [1, 0],
+    [1, -1],
+    [0, -1],
+  ];
+
   return {
     board,
     userInputs,
@@ -45,5 +56,6 @@ export const useBoard = () => {
     setuserInputs,
     setBombMap,
     newInputs,
+    directions
   };
 };
