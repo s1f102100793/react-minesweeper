@@ -18,54 +18,69 @@ export const useGame = () => {
     [0, -1],
   ];
 
+  const countSurroundingBombs = (y: number, x: number, w2: number[]): boolean => {
+    return (
+      board[y + w2[0]] !== undefined &&
+      board[x + w2[1]] !== undefined &&
+      bombMap[y + w2[0]][x + w2[1]] === 1
+    );
+  };
+
+  const sValidAndEmptySpace = (y: number, x: number, w1: number[]) => {
+    return (
+      board[y + w1[0]] !== undefined &&
+      board[x + w1[1]] !== undefined &&
+      board[y + w1[0]][x + w1[1]] === -1 &&
+      board[y][x] !== 11
+    );
+  };
+
+  const updateBoardAndBombCounts = (y: number, x: number, bomb: number) => {
+    if (bomb === 0) {
+      for (const w1 of directions) {
+        board[y][x] = 0;
+        if (sValidAndEmptySpace(y, x, w1)) {
+          bombcounts(y + w1[0], x + w1[1]);
+        }
+      }
+    } else {
+      board[y][x] = bomb;
+    }
+  };
+
   const bombcounts = (y: number, x: number) => {
     let bomb = 0;
     for (const w2 of directions) {
-      if (
-        board[y + w2[0]] !== undefined &&
-        board[x + w2[1]] !== undefined &&
-        bombMap[y + w2[0]][x + w2[1]] === 1
-      ) {
+      if (countSurroundingBombs(y, x, w2)) {
         bomb++;
       }
     }
     if (board[y][x] !== 11) {
-      if (bomb === 0) {
-        for (const w1 of directions) {
-          board[y][x] = 0;
-          if (
-            board[y + w1[0]] !== undefined &&
-            board[x + w1[1]] !== undefined &&
-            board[y + w1[0]][x + w1[1]] === -1 &&
-            board[y][x] !== 11
-          ) {
-            bombcounts(y + w1[0], x + w1[1]);
-          }
-        }
-      } else {
-        board[y][x] = bomb;
-      }
+      updateBoardAndBombCounts(y, x, bomb);
     }
   };
 
   let gameover = 0;
   let clearcount = 0;
+  const revealAllBombs = () => {
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if (bombMap[i][j] === 1) {
+          board[i][j] = 11;
+          gameover = 1;
+        }
+      }
+    }
+  };
+
   for (let y = 0; y < 9; y++) {
     for (let x = 0; x < 9; x++) {
+      if (userInputs[y][x] === 1 && bombMap[y][x] === 1) {
+        revealAllBombs();
+        continue;
+      }
       if (userInputs[y][x] === 1) {
-        if (bombMap[y][x] === 1) {
-          for (let y = 0; y < 9; y++) {
-            for (let x = 0; x < 9; x++) {
-              if (bombMap[y][x] === 1) {
-                board[y][x] = 11;
-                gameover = 1;
-              }
-            }
-          }
-          continue;
-        } else {
-          bombcounts(y, x);
-        }
+        bombcounts(y, x);
       }
       if (userInputs[y][x] === 2) {
         board[y][x] = 10;
