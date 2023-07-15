@@ -6,8 +6,7 @@ export const useGame = () => {
   const [timer, setTimer] = useState<number>(0);
   let bombcount = 10;
   const bombcount2 = bombcount;
-  console.log('9');
-  console.table(board);
+
   const countSurroundingBombs = (y: number, x: number, w2: number[]): boolean => {
     return (
       board[y + w2[0]] !== undefined &&
@@ -15,6 +14,7 @@ export const useGame = () => {
       bombMap[y + w2[0]][x + w2[1]] === 1
     );
   };
+
   const sValidAndEmptySpace = (y: number, x: number, w1: number[]) => {
     return (
       board[y + w1[0]] !== undefined &&
@@ -23,6 +23,7 @@ export const useGame = () => {
       board[y][x] !== 11
     );
   };
+
   const updateBoardAndBombCounts = (y: number, x: number, bomb: number) => {
     if (bomb === 0) {
       for (const w1 of directions) {
@@ -35,6 +36,7 @@ export const useGame = () => {
       board[y][x] = bomb;
     }
   };
+
   const bombcounts = (y: number, x: number) => {
     let bomb = 0;
     for (const w2 of directions) {
@@ -46,18 +48,16 @@ export const useGame = () => {
       updateBoardAndBombCounts(y, x, bomb);
     }
   };
+
   let gameover = 0;
   let clearcount = 0;
-  const revealAllBombs = () => {
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        if (bombMap[i][j] === 1) {
-          board[i][j] = 11;
-          gameover = 1;
-        }
-      }
+  const revealAllBombs = (y: number, x: number) => {
+    if (bombMap[y][x] === 1) {
+      board[y][x] = 11;
+      gameover = 1;
     }
   };
+
   const iterateBoard = (callback: (y: number, x: number) => void) => {
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
@@ -65,18 +65,18 @@ export const useGame = () => {
       }
     }
   };
-  console.log('66');
-  console.table(board);
+
   const countClearcount = (y: number, x: number) => {
     if (board[y][x] === -1 || board[y][x] === 10 || board[y][x] === 9) {
       clearcount++;
       // console.log('clearcount', clearcount);
     }
   };
+
   const processCell = (y: number, x: number) => {
     if (userInputs[y][x] === 1) {
       if (bombMap[y][x] === 1) {
-        revealAllBombs();
+        iterateBoard(revealAllBombs);
         return;
       }
       bombcounts(y, x);
@@ -87,19 +87,18 @@ export const useGame = () => {
       board[y][x] = 9;
     }
   };
+
   const processBoard = () => {
     iterateBoard(processCell);
   };
   processBoard();
-  const revealAllBombs10 = () => {
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        if (bombMap[i][j] === 1) {
-          board[i][j] = 10;
-        }
-      }
+
+  const checkAndSetBoard = (y: number, x: number) => {
+    if (bombMap[y][x] === 1) {
+      board[y][x] = 10;
     }
   };
+
   const handleInputChange = (y: number, x: number, currentValue: number) => {
     const newInputs = [...userInputs];
     if (currentValue === 0) newInputs[y][x] = 2;
@@ -132,10 +131,12 @@ export const useGame = () => {
     newInputs[y][x] = 1;
     setuserInputs(newInputs);
   };
+
   iterateBoard(countClearcount);
   if (clearcount === bombcount2) {
-    revealAllBombs10();
+    iterateBoard(checkAndSetBoard);
   }
+  
   const onClick = (y: number, x: number, e: React.MouseEvent<HTMLDivElement>) => {
     console.log('押されている');
     if (e.button === 2) {
