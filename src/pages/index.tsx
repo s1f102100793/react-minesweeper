@@ -1,11 +1,10 @@
 import { Upper } from '../components/Upper';
-import { useBoard } from '../hooks/useBoard';
 import { useGame } from '../hooks/useGame';
 import styles from './index.module.css';
 
 const Home = () => {
-  const { bombcount } = useBoard();
-  const { clearcount, gameover, timer, onClick, bombcount2, resetboard, board } = useGame();
+  const { clearcount, gameover, timer, onClick, bombcount2, resetboard, board, bombcount } =
+    useGame();
 
   console.log('return前');
   console.table(board);

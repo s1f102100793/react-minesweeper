@@ -1,18 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useBoard } from './useBoard';
 export const useGame = () => {
-  const {
-    board,
-    userInputs,
-    bombMap,
-    setuserInputs,
-    setBombMap,
-    newInputs,
-    directions,
-    bombcount,
-  } = useBoard();
+  const { board, userInputs, bombMap, setuserInputs, setBombMap, newInputs, directions } =
+    useBoard();
   const [timer, setTimer] = useState<number>(0);
-  let bombcount2 = bombcount;
+  let bombcount = 10;
+  const bombcount2 = bombcount;
   const countSurroundingBombs = (y: number, x: number, w2: number[]): boolean => {
     return (
       board[y + w2[0]] !== undefined &&
@@ -85,7 +78,7 @@ export const useGame = () => {
       bombcounts(y, x);
     } else if (userInputs[y][x] === 2) {
       board[y][x] = 10;
-      bombcount2--;
+      bombcount--;
     } else if (userInputs[y][x] === 3) {
       board[y][x] = 9;
     }
@@ -196,5 +189,5 @@ export const useGame = () => {
     return () => clearInterval(interval);
   }, [bombbb, clearcount, bombcount, bombcount2, gameover]);
 
-  return { clearcount, gameover, timer, onClick, setTimer, bombcount2, resetboard, board };
+  return { clearcount, gameover, timer, onClick, setTimer, bombcount2, resetboard, board, bombcount };
 };
