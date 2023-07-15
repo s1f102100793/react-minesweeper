@@ -6,8 +6,6 @@ const Home = () => {
   const { clearcount, gameover, timer, onClick, bombcount2, resetboard, board, bombcount } =
     useGame();
 
-  console.log('return前');
-  console.table(board);
   return (
     <div className={styles.container}>
       <div className={styles.boardboard}>

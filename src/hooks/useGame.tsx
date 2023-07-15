@@ -6,6 +6,8 @@ export const useGame = () => {
   const [timer, setTimer] = useState<number>(0);
   let bombcount = 10;
   const bombcount2 = bombcount;
+  console.log('9');
+  console.table(board);
   const countSurroundingBombs = (y: number, x: number, w2: number[]): boolean => {
     return (
       board[y + w2[0]] !== undefined &&
@@ -63,12 +65,14 @@ export const useGame = () => {
       }
     }
   };
-  iterateBoard((y, x) => {
+  console.log('66');
+  console.table(board);
+  const countClearcount = (y: number, x: number) => {
     if (board[y][x] === -1 || board[y][x] === 10 || board[y][x] === 9) {
       clearcount++;
       // console.log('clearcount', clearcount);
     }
-  });
+  };
   const processCell = (y: number, x: number) => {
     if (userInputs[y][x] === 1) {
       if (bombMap[y][x] === 1) {
@@ -83,23 +87,19 @@ export const useGame = () => {
       board[y][x] = 9;
     }
   };
-
   const processBoard = () => {
     iterateBoard(processCell);
   };
-
   processBoard();
-
-  const checkAndSetBoard = (y: number, x: number) => {
-    if (bombMap[y][x] === 1) {
-      board[y][x] = 10;
+  const revealAllBombs10 = () => {
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if (bombMap[i][j] === 1) {
+          board[i][j] = 10;
+        }
+      }
     }
   };
-
-  if (clearcount === bombcount2) {
-    iterateBoard(checkAndSetBoard);
-  }
-
   const handleInputChange = (y: number, x: number, currentValue: number) => {
     const newInputs = [...userInputs];
     if (currentValue === 0) newInputs[y][x] = 2;
@@ -132,7 +132,10 @@ export const useGame = () => {
     newInputs[y][x] = 1;
     setuserInputs(newInputs);
   };
-
+  iterateBoard(countClearcount);
+  if (clearcount === bombcount2) {
+    revealAllBombs10();
+  }
   const onClick = (y: number, x: number, e: React.MouseEvent<HTMLDivElement>) => {
     console.log('押されている');
     if (e.button === 2) {
@@ -172,13 +175,6 @@ export const useGame = () => {
     setTimer(0);
   };
 
-  console.log('board');
-  console.table(board);
-  console.log('bombMap');
-  console.table(bombMap);
-  console.log('userInputs');
-  console.table(userInputs);
-
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (bombbb > 0 && clearcount !== bombcount2 && gameover === 0) {
@@ -189,5 +185,15 @@ export const useGame = () => {
     return () => clearInterval(interval);
   }, [bombbb, clearcount, bombcount, bombcount2, gameover]);
 
-  return { clearcount, gameover, timer, onClick, setTimer, bombcount2, resetboard, board, bombcount };
+  return {
+    clearcount,
+    gameover,
+    timer,
+    onClick,
+    setTimer,
+    bombcount2,
+    resetboard,
+    board,
+    bombcount,
+  };
 };
