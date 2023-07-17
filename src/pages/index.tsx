@@ -21,7 +21,13 @@ const Home = () => {
         <div className={styles.board}>
           {board.map((row, y) =>
             row.map((col, x) => (
-              <Cell key={`${y}-${x}`} number={col} y={y} x={x} onClick={(e) => onClick(y, x, e)} />
+              <Cell
+                key={`${y}-${x}`}
+                number={col}
+                y={y}
+                x={x}
+                onClick={(y, x, e) => onClick(y, x, e)}
+              />
             ))
           )}
         </div>
