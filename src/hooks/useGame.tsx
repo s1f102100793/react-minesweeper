@@ -136,7 +136,7 @@ export const useGame = () => {
   if (clearcount === bombcount2) {
     iterateBoard(checkAndSetBoard);
   }
-  
+
   const onClick = (y: number, x: number, e: React.MouseEvent<HTMLDivElement>) => {
     console.log('押されている');
     if (e.button === 2) {
