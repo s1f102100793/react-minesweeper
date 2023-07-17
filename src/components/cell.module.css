@@ -1,0 +1,19 @@
+.number {
+  width: 60px;
+  height: 60px;
+  background: url('~/assets/images/icons.png') no-repeat;
+  background-size: auto 56px;
+  border: 2px solid #808080;
+}
+
+.stone {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 7px solid #fff;
+  border-left: 7px solid #fff;
+  border-bottom: 7px solid #808080;
+  border-right: 7px solid #808080;
+}
